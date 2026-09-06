@@ -1,0 +1,9 @@
+<label class="org-context">
+  Org context:
+  <select [ngModel]="orgContext.selectedOrgId()" (ngModelChange)="orgContext.select($event)">
+    <option [ngValue]="null">All orgs</option>
+    @for (org of orgs(); track org.id) {
+      <option [ngValue]="org.id">{{ org.name }}</option>
+    }
+  </select>
+</label>

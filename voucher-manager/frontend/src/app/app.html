@@ -1,0 +1,33 @@
+@if (auth.isAuthenticated()) {
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">{{ title() }}</div>
+      <nav>
+        <a routerLink="/overview" routerLinkActive="active">Overview</a>
+        <a routerLink="/users" routerLinkActive="active">Users</a>
+        <a routerLink="/vouchers" routerLinkActive="active">Vouchers</a>
+        @if (auth.role() === 'ADMIN') {
+          <a routerLink="/orgs" routerLinkActive="active">Orgs</a>
+        }
+      </nav>
+    </aside>
+    <div class="shell-main">
+      <header class="topbar">
+        @if (auth.role() === 'ADMIN') {
+          <app-org-context-selector />
+        }
+        <div class="session">
+          <span>{{ auth.name() }} ({{ auth.role() }})</span>
+          <button type="button" (click)="logout()">Logout</button>
+        </div>
+      </header>
+      <main>
+        <router-outlet />
+      </main>
+    </div>
+  </div>
+} @else {
+  <main class="unauthenticated">
+    <router-outlet />
+  </main>
+}

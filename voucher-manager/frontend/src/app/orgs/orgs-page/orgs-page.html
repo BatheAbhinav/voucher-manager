@@ -1,0 +1,10 @@
+<div class="page-header">
+  <h2>Orgs</h2>
+  <button type="button" (click)="toggleForm()">{{ showForm() ? 'Cancel' : '+ New org' }}</button>
+</div>
+
+@if (showForm()) {
+  <app-org-form (created)="list.reload(); showForm.set(false)" />
+}
+
+<app-org-list #list />

@@ -1,0 +1,67 @@
+<h2>Overview</h2>
+
+@if (loading()) {
+  <p>Loading…</p>
+} @else if (stats(); as s) {
+  <div class="stat-grid">
+    <div class="stat-card"><span class="stat-value">{{ s.totalVouchers }}</span><span class="stat-label">Total vouchers</span></div>
+    <div class="stat-card"><span class="stat-value">{{ s.activeVouchers }}</span><span class="stat-label">Active</span></div>
+    <div class="stat-card"><span class="stat-value">{{ s.draftVouchers }}</span><span class="stat-label">Draft</span></div>
+    <div class="stat-card"><span class="stat-value">{{ s.pausedVouchers }}</span><span class="stat-label">Paused</span></div>
+    <div class="stat-card"><span class="stat-value">{{ s.expiredVouchers }}</span><span class="stat-label">Expired</span></div>
+    <div class="stat-card"><span class="stat-value">{{ s.exhaustedVouchers }}</span><span class="stat-label">Exhausted</span></div>
+    <div class="stat-card"><span class="stat-value">{{ s.totalUsers }}</span><span class="stat-label">Users</span></div>
+    <div class="stat-card"><span class="stat-value">{{ s.totalRedemptions }}</span><span class="stat-label">Redemptions</span></div>
+  </div>
+}
+
+@if (stats(); as s) {
+  <section>
+    <h3>Vouchers by status</h3>
+    <app-bar-chart [items]="statusBreakdownItems()" />
+  </section>
+}
+
+<section>
+  <h3>Redemptions, last 30 days</h3>
+  <app-redemption-trend-chart [data]="dailyRedemptions()" />
+</section>
+
+@if (byOrg().length > 0) {
+  <section>
+    <h3>By org</h3>
+    <app-bar-chart [items]="orgBreakdownItems()" />
+    <table class="by-org-table">
+      <thead>
+        <tr><th>Org</th><th>Vouchers</th><th>Active</th><th>Users</th><th>Redemptions</th></tr>
+      </thead>
+      <tbody>
+        @for (org of byOrg(); track org.orgId) {
+          <tr>
+            <td>{{ org.orgName }}</td>
+            <td>{{ org.stats.totalVouchers }}</td>
+            <td>{{ org.stats.activeVouchers }}</td>
+            <td>{{ org.stats.totalUsers }}</td>
+            <td>{{ org.stats.totalRedemptions }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+}
+
+<section>
+  <h3>Recent activity</h3>
+  @if (activity().length === 0) {
+    <p>No activity yet.</p>
+  } @else {
+    <ul class="activity-feed">
+      @for (entry of activity(); track entry.id) {
+        <li>
+          <span class="activity-label">{{ activityLabel(entry) }}</span>
+          <span class="activity-time">{{ entry.createdAt }}</span>
+        </li>
+      }
+    </ul>
+  }
+</section>

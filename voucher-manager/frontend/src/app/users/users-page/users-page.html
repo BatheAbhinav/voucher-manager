@@ -1,0 +1,10 @@
+<div class="page-header">
+  <h2>Users</h2>
+  <button type="button" (click)="toggleForm()">{{ showForm() ? 'Cancel' : '+ New user' }}</button>
+</div>
+
+@if (showForm()) {
+  <app-user-form (created)="list.reload(); showForm.set(false)" />
+}
+
+<app-user-list #list />

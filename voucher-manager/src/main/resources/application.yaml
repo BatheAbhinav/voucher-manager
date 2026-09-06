@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: voucher-manager
+  datasource:
+    url: jdbc:postgresql://localhost:5432/voucher_manager
+    username: voucher_manager
+    password: voucher_manager
+  sql:
+    init:
+      mode: always
+
+app:
+  jwt:
+    secret: "dev-only-jwt-secret-change-me-before-any-real-deployment"

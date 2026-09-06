@@ -1,0 +1,22 @@
+@if (loading()) {
+  <p>Loading…</p>
+} @else if (vouchers().length === 0) {
+  <p>No vouchers yet.</p>
+} @else {
+  <table>
+    <thead>
+      <tr><th>Code</th><th>Title</th><th>Status</th><th>Scope</th><th>Max redemptions</th></tr>
+    </thead>
+    <tbody>
+      @for (voucher of vouchers(); track voucher.id) {
+        <tr>
+          <td><a [routerLink]="['/vouchers', voucher.id]">{{ voucher.code }}</a></td>
+          <td>{{ voucher.title }}</td>
+          <td>{{ voucher.status }}</td>
+          <td>{{ voucher.scope }}</td>
+          <td>{{ voucher.maxRedemptions ?? 'unlimited' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
