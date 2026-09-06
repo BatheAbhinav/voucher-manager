@@ -1,0 +1,75 @@
+@if (loading()) {
+  <p>Loading…</p>
+} @else if (voucher(); as v) {
+  <h2>{{ v.code }}</h2>
+  <dl>
+    <dt>Title</dt><dd>{{ v.title }}</dd>
+    <dt>Status</dt><dd>{{ v.status }}</dd>
+    <dt>Scope</dt><dd>{{ v.scope }}</dd>
+    <dt>Max redemptions</dt><dd>{{ v.maxRedemptions ?? 'unlimited' }}</dd>
+    <dt>Starts at</dt><dd>{{ v.startsAt }}</dd>
+    <dt>Expires at</dt><dd>{{ v.expiresAt }}</dd>
+  </dl>
+
+  <section>
+    <h3>Redeem</h3>
+    <select [(ngModel)]="selectedUserId">
+      <option value="" disabled>Select a user</option>
+      @for (user of users(); track user.id) {
+        <option [value]="user.id">{{ user.email }}</option>
+      }
+    </select>
+    <button type="button" [disabled]="!selectedUserId" (click)="redeem()">Redeem</button>
+  </section>
+
+  <section>
+    <h3>Link to user</h3>
+    <select [(ngModel)]="linkUserId">
+      <option value="" disabled>Select a user</option>
+      @for (user of users(); track user.id) {
+        <option [value]="user.id">{{ user.email }}</option>
+      }
+    </select>
+    <button type="button" [disabled]="!linkUserId" (click)="linkUser()">Link</button>
+  </section>
+
+  <section>
+    <h3>Assignments</h3>
+    @if (assignments().length === 0) {
+      <p>No users linked yet.</p>
+    } @else {
+      <table>
+        <thead>
+          <tr><th>User</th><th>Status</th><th></th></tr>
+        </thead>
+        <tbody>
+          @for (assignment of assignments(); track assignment.id) {
+            <tr>
+              <td>{{ userEmail(assignment.userId) }}</td>
+              <td>{{ assignment.status }}</td>
+              <td>
+                @if (assignment.status === 'ASSIGNED') {
+                  <button type="button" (click)="revokeAssignment(assignment.userId)">Revoke</button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </section>
+
+  <section>
+    <h3>Actions</h3>
+    <button type="button" (click)="forceExpire()">Force expire</button>
+  </section>
+
+  @if (actionMessage) {
+    <p class="success">{{ actionMessage }}</p>
+  }
+  @if (actionError) {
+    <p class="error">{{ actionError }}</p>
+  }
+} @else {
+  <p>Voucher not found.</p>
+}

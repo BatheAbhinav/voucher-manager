@@ -1,0 +1,26 @@
+<div class="login-card">
+  <h2>Sign in</h2>
+
+  <div class="role-toggle">
+    <button type="button" [class.active]="role() === 'ORG'" (click)="selectRole('ORG')">Org</button>
+    <button type="button" [class.active]="role() === 'ADMIN'" (click)="selectRole('ADMIN')">Admin</button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div>
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+    </div>
+
+    <div>
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+    </div>
+
+    <button type="submit">Sign in</button>
+
+    @if (errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
+  </form>
+</div>

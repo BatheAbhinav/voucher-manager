@@ -1,0 +1,15 @@
+@if (rows().length === 0) {
+  <p class="hint">No data yet.</p>
+} @else {
+  <div class="bar-chart">
+    @for (row of rows(); track row.label) {
+      <div class="bar-row">
+        <span class="bar-label">{{ row.label }}</span>
+        <div class="bar-track">
+          <div class="bar-fill" [style.width.%]="row.widthPct"></div>
+        </div>
+        <span class="bar-value">{{ row.value }}</span>
+      </div>
+    }
+  </div>
+}

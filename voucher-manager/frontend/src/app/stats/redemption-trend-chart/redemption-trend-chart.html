@@ -1,0 +1,38 @@
+@if (data().length === 0) {
+  <p class="hint">No redemptions yet.</p>
+} @else {
+  <div class="trend-chart">
+    <svg
+      #svgEl
+      [attr.viewBox]="'0 0 ' + width + ' ' + height"
+      [attr.width]="width"
+      [attr.height]="height"
+      (mousemove)="onMouseMove($event, svgEl)"
+      (mouseleave)="onMouseLeave()"
+    >
+      @for (v of gridlineValues(); track v) {
+        <line class="gridline" [attr.x1]="36" [attr.x2]="width - 16" [attr.y1]="gridlineY(v)" [attr.y2]="gridlineY(v)" />
+        <text class="axis-label" [attr.x]="30" [attr.y]="gridlineY(v) + 4" text-anchor="end">{{ v }}</text>
+      }
+
+      <path class="area" [attr.d]="areaPath()" />
+      <path class="line" [attr.d]="linePath()" />
+
+      @if (hovered(); as h) {
+        <line class="crosshair" [attr.x1]="h.x" [attr.x2]="h.x" [attr.y1]="16" [attr.y2]="baselineY" />
+        <circle class="end-dot" [attr.cx]="h.x" [attr.cy]="h.y" r="4" />
+      }
+    </svg>
+
+    @if (hovered(); as h) {
+      <div class="tooltip" [style.left.px]="h.x" [style.top.px]="h.y">
+        <strong>{{ h.count }}</strong> redemption{{ h.count === 1 ? '' : 's' }} · {{ formatDay(h.day) }}
+      </div>
+    }
+
+    <div class="trend-footer">
+      <span>{{ formatDay(points()[0].day) }}</span>
+      <span>{{ formatDay(points()[points().length - 1].day) }}</span>
+    </div>
+  </div>
+}

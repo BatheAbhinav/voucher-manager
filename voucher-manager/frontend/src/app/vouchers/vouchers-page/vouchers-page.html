@@ -1,0 +1,10 @@
+<div class="page-header">
+  <h2>Vouchers</h2>
+  <button type="button" (click)="toggleForm()">{{ showForm() ? 'Cancel' : '+ New voucher' }}</button>
+</div>
+
+@if (showForm()) {
+  <app-voucher-form (created)="list.reload(); showForm.set(false)" />
+}
+
+<app-voucher-list #list />

@@ -1,0 +1,66 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div>
+    <label for="code">Code</label>
+    <input id="code" type="text" formControlName="code" />
+    @if (form.controls.code.invalid && form.controls.code.touched) {
+      <span class="error">A code is required (max 64 characters)</span>
+    }
+  </div>
+
+  <div>
+    <label for="title">Title</label>
+    <input id="title" type="text" formControlName="title" />
+  </div>
+
+  <div>
+    <label for="status">Status</label>
+    <select id="status" formControlName="status">
+      @for (status of statuses; track status) {
+        <option [value]="status">{{ status }}</option>
+      }
+    </select>
+  </div>
+
+  <div>
+    <label for="scope">Scope</label>
+    <select id="scope" formControlName="scope">
+      @for (scope of scopes; track scope) {
+        <option [value]="scope">{{ scope }}</option>
+      }
+    </select>
+  </div>
+
+  <div>
+    <label for="maxRedemptions">Max redemptions</label>
+    <input id="maxRedemptions" type="number" formControlName="maxRedemptions" />
+  </div>
+
+  @if (form.controls.scope.value === 'USER_SPECIFIC') {
+    <div class="assignee-picker">
+      <label>Assign to users</label>
+      @if (candidateUsers().length === 0) {
+        <p class="hint">No registered users to assign yet.</p>
+      } @else {
+        @for (user of candidateUsers(); track user.id) {
+          <label class="assignee">
+            <input
+              type="checkbox"
+              [checked]="selectedUserIds().has(user.id)"
+              (change)="toggleUser(user.id, !selectedUserIds().has(user.id))"
+            />
+            {{ user.email }}
+          </label>
+        }
+      }
+    </div>
+  }
+
+  <button type="submit" [disabled]="orgSelectionRequired()">Create voucher</button>
+
+  @if (orgSelectionRequired()) {
+    <p class="error">Select an org context above first</p>
+  }
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+</form>

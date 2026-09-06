@@ -1,0 +1,19 @@
+@if (loading()) {
+  <p>Loading…</p>
+} @else if (orgs().length === 0) {
+  <p>No orgs yet.</p>
+} @else {
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Email</th></tr>
+    </thead>
+    <tbody>
+      @for (org of orgs(); track org.id) {
+        <tr>
+          <td>{{ org.name }}</td>
+          <td>{{ org.email }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
