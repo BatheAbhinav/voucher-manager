@@ -29,25 +29,26 @@ freely redeemable by code or restricted to specific pre-assigned users.
 
 ```
 voucher-manager/
-├── src/main/java/abhinav/projects/vouchermanager/
-│   ├── auth/       # Admin/Org login, JWT issue+verify, CurrentPrincipal (org-scoping/authorization)
-│   ├── user/       # Users (org-scoped)
-│   ├── voucher/    # Vouchers, redemption, assign/revoke, history
-│   ├── stats/       # Stat cards, activity feed, daily redemption trend
-│   └── error/       # ProblemDetail-based exception handling
-├── src/main/resources/
-│   ├── application.yaml
-│   └── schema.sql   # Full DROP/CREATE on every boot — no migrations, no persisted data across restarts
-├── docker-compose.yml   # Postgres for local dev
-└── frontend/
-    └── src/app/
-        ├── auth/        # Login page, token storage, route guards, HTTP interceptor
-        ├── orgs/        # Admin: create/list orgs, org-context selector
-        ├── users/       # Users list/create
-        ├── vouchers/    # Vouchers list/create/detail (redeem, link, revoke, force-expire)
-        ├── overview/    # Dashboard landing page
-        ├── stats/       # Stats API client + redemption trend chart
-        └── charts/      # Reusable bar chart
+├── backend/
+│   ├── src/main/java/abhinav/projects/vouchermanager/
+│   │   ├── auth/       # Admin/Org login, JWT issue+verify, CurrentPrincipal (org-scoping/authorization)
+│   │   ├── user/       # Users (org-scoped)
+│   │   ├── voucher/    # Vouchers, redemption, assign/revoke, history
+│   │   ├── stats/       # Stat cards, activity feed, daily redemption trend
+│   │   └── error/       # ProblemDetail-based exception handling
+│   └── src/main/resources/
+│       ├── application.yaml
+│       └── schema.sql   # Full DROP/CREATE on every boot — no migrations, no persisted data across restarts
+├── frontend/
+│   └── src/app/
+│       ├── auth/        # Login page, token storage, route guards, HTTP interceptor
+│       ├── orgs/        # Admin: create/list orgs, org-context selector
+│       ├── users/       # Users list/create
+│       ├── vouchers/    # Vouchers list/create/detail (redeem, link, revoke, force-expire)
+│       ├── overview/    # Dashboard landing page
+│       ├── stats/       # Stats API client + redemption trend chart
+│       └── charts/      # Reusable bar chart
+└── docker-compose.yml   # Postgres for local dev
 ```
 
 ## Getting started
@@ -70,6 +71,7 @@ Starts Postgres on `localhost:5432` with database/user/password `voucher_manager
 ### 2. Backend
 
 ```bash
+cd backend
 ./mvnw spring-boot:run
 ```
 
